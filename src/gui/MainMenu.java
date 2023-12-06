@@ -5,14 +5,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
 
 import java.util.*;
+import common.*;
+
    
 
 
 public class MainMenu extends JPanel {
 
+	public static Budget budget = new Budget();
 
     JButton createBudgetButton;
     JButton newExpenseButton;
@@ -45,6 +49,12 @@ public class MainMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO
+				String ni = BudgetWizard.promptNetIncome();
+				budget.setNetIncome(ni);
+				
+				String s = BudgetWizard.promptSavings();
+				budget.setSavings(s);
+				
                 System.out.println("create budget button pressed!");
             }
 
@@ -56,7 +66,25 @@ public class MainMenu extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // TODO
 				
-                System.out.println("new expense button pressed!");
+				String name = ExpenseWizard.promptExpenseName();
+				String amount = ExpenseWizard.promptExpenseAmount();
+				String a = ExpenseWizard.promptExpenseOneTime();
+				boolean ot;
+				while(true){
+					if(a.equals("Y")){
+						ot = true;
+						break;
+					}
+					if(a.equals("N")){
+						ot = false;
+						break;
+					}
+					a = ExpenseWizard.promptExpenseOneTime();
+				}
+				
+				budget.addExpense(amount, name, ot);
+				//budget.printExpense();
+                //System.out.println("new expense button pressed!");
             }
 
         })  ;
