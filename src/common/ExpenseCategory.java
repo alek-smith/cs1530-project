@@ -5,7 +5,7 @@ import java.util.*;
 public class ExpenseCategory {
 
     private String name;
-	ArrayList<Expense> expenses;
+	public ArrayList<Expense> expenses;
 	
 	public ExpenseCategory(String n){
 		name = n;

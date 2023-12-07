@@ -23,6 +23,7 @@ public class MainMenu extends JPanel {
     JButton newGoalButton;
     JButton newExpenseCategoryButton;
     JButton viewOverviewButton;
+	JButton addExpensetoCategoryButton;
 
     public MainMenu() {
 
@@ -31,12 +32,14 @@ public class MainMenu extends JPanel {
         newGoalButton = new JButton("Set a new goal");
         newExpenseCategoryButton = new JButton("Add a new expense category");
         viewOverviewButton = new JButton("View financial overview");
+		addExpensetoCategoryButton = new JButton("Add Expense to an Expense Category");
 
         add(createBudgetButton);
         add(newExpenseButton);
         add(newGoalButton);
         add(newExpenseCategoryButton);
         add(viewOverviewButton);
+		add(addExpensetoCategoryButton);
 
         initButtons();
 
@@ -55,7 +58,7 @@ public class MainMenu extends JPanel {
 				String s = BudgetWizard.promptSavings();
 				budget.setSavings(s);
 				
-                System.out.println("create budget button pressed!");
+                //System.out.println("create budget button pressed!");
             }
 
         });
@@ -94,7 +97,15 @@ public class MainMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO
-                System.out.println("new goal button pressed!");
+				String n = GoalWizard.promptGoalName();
+				String a = GoalWizard.promptGoalAmount();
+				String mc = GoalWizard.promptGoalContribution();
+				
+				budget.addGoal(n, a, mc);
+				
+				
+				
+                //System.out.println("new goal button pressed!");
             }
 
         });
@@ -104,7 +115,12 @@ public class MainMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO
-                System.out.println("new expense category button pressed!");
+				
+				
+				String s = ExpenseCategoryWizard.promptExpenseCategoryName();
+				budget.newCategory(s);
+				
+               // System.out.println("new expense category button pressed!");
             }
 
         });
@@ -113,8 +129,25 @@ public class MainMenu extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+				
+				Overview.showOverview(budget);
                 // TODO
-                System.out.println("view overview button pressed!");
+                //System.out.println("view overview button pressed!");
+            }
+
+        });
+		
+		        addExpensetoCategoryButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO
+				String ex = AddExpenseToCategoryWizard.promptExpense();
+				String c = AddExpenseToCategoryWizard.promptCategory();
+				
+				budget.addExpenseToCategory(ex, c);
+				
+                //System.out.println("add expense to category button pressed");
             }
 
         });
