@@ -24,7 +24,9 @@ public class Overview extends JPanel {
 		//System.out.println(b.categories.size());
 		
 		for(ExpenseCategory ec : b.categories){
-			s.append(ec.getName() + "\n");
+			if(ec.expenses.size() > 0){
+				s.append(ec.getName() + "\n");
+			}
 			for(Expense e : ec.expenses){
 				s.append("     " + e.getName() + ": " + e.getAmount());
 				totalSpending = totalSpending.add(e.getAmount());
