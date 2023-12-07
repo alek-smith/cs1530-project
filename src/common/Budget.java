@@ -1,15 +1,16 @@
 package common;
 
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.*;
 
 public class Budget {
 
     public BigDecimal netIncome;
-    public static ArrayList<Expense> expenses = new ArrayList<Expense>();
+    public ArrayList<Expense> expenses = new ArrayList<Expense>();
     public BigDecimal savings;
-	public static ArrayList<Goal> goals = new ArrayList<Goal>();
-	public static ArrayList<ExpenseCategory> categories = new ArrayList<ExpenseCategory>();
+	public ArrayList<Goal> goals = new ArrayList<Goal>();
+	public ArrayList<ExpenseCategory> categories = new ArrayList<ExpenseCategory>();
 
 	public Budget(){
 		netIncome = new BigDecimal("0");
@@ -82,4 +83,45 @@ public class Budget {
 		
 		ec.addExpense(a);
 	}
+
+	public void load(Scanner input) {
+		int size;
+		expenses.clear();
+		goals.clear();
+		categories.clear();
+		String line = input.nextLine();
+		netIncome = new BigDecimal(line);
+		size = Integer.parseInt(input.nextLine());
+		for (int i = 0; i < size; i++) {
+			Expense e = new Expense(null, false, null);
+			e.load(input);
+			expenses.add(e);
+		}
+		line = input.nextLine();
+		savings = new BigDecimal(line);
+		size = Integer.parseInt(input.nextLine());
+		for (int i = 0; i < size; i++) {
+			Goal g = new Goal(null, null, null);
+			g.load(input);
+			goals.add(g);
+		}
+		size = Integer.parseInt(input.nextLine());
+		for (int i = 0; i < size; i++) {
+			ExpenseCategory ec = new ExpenseCategory(null);
+			ec.load(input, expenses);
+			categories.add(ec);
+		}
+	}
+
+	public void save(PrintWriter output) {
+		output.println(netIncome);
+		output.println(expenses.size());
+		for (Expense e : expenses) e.save(output);
+		output.println(savings);
+		output.println(goals.size());
+		for (Goal g : goals) g.save(output);
+		output.println(categories.size());
+		for (ExpenseCategory ec : categories) ec.save(output);
+	}
+
 }

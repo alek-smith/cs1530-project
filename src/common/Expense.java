@@ -1,6 +1,8 @@
 package common;
 
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.Scanner;
 
 public class Expense {
 
@@ -28,6 +30,21 @@ public class Expense {
 	
 	public void setAmount(BigDecimal a){
 		amount = a;
+	}
+
+	public void load(Scanner input) {
+		String line = input.nextLine();
+		amount = new BigDecimal(line);
+		line = input.nextLine();
+		oneTime = Boolean.parseBoolean(line);
+		line = input.nextLine();
+		name = line;
+	}
+
+	public void save(PrintWriter output) {
+		output.println(amount);
+		output.println(oneTime);
+		output.println(name);
 	}
 
 }

@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintWriter;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -16,7 +17,7 @@ import common.*;
 
 public class MainMenu extends JPanel {
 
-	public static Budget budget = new Budget();
+	public Budget budget = new Budget();
 
     JButton createBudgetButton;
     JButton newExpenseButton;
@@ -45,13 +46,20 @@ public class MainMenu extends JPanel {
 
     }
 
+    public void load(Scanner input) {
+        budget.load(input);
+    }
+
+    public void save(PrintWriter output) {
+        budget.save(output);
+    }
+
     private void initButtons() {
 
         createBudgetButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
 				String ni = BudgetWizard.promptNetIncome();
 				budget.setNetIncome(ni);
 				
@@ -67,18 +75,20 @@ public class MainMenu extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
 				
 				String name = ExpenseWizard.promptExpenseName();
+                if (name == null) return;
 				String amount = ExpenseWizard.promptExpenseAmount();
+                if (amount == null) return;
 				String a = ExpenseWizard.promptExpenseOneTime();
+                if (a == null) return;
 				boolean ot;
 				while(true){
-					if(a.equals("Y")){
+					if(a.toLowerCase().equals("y")){
 						ot = true;
 						break;
 					}
-					if(a.equals("N")){
+					if(a.toLowerCase().equals("n")){
 						ot = false;
 						break;
 					}
@@ -96,10 +106,12 @@ public class MainMenu extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
 				String n = GoalWizard.promptGoalName();
+                if (n == null) return;
 				String a = GoalWizard.promptGoalAmount();
+                if (a == null) return;
 				String mc = GoalWizard.promptGoalContribution();
+                if (mc == null) return;
 				
 				budget.addGoal(n, a, mc);
 				
@@ -114,10 +126,10 @@ public class MainMenu extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
 				
 				
 				String s = ExpenseCategoryWizard.promptExpenseCategoryName();
+                if (s == null) return;
 				budget.newCategory(s);
 				
                // System.out.println("new expense category button pressed!");
@@ -131,7 +143,6 @@ public class MainMenu extends JPanel {
             public void actionPerformed(ActionEvent e) {
 				
 				Overview.showOverview(budget);
-                // TODO
                 //System.out.println("view overview button pressed!");
             }
 
@@ -141,9 +152,10 @@ public class MainMenu extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
 				String ex = AddExpenseToCategoryWizard.promptExpense();
+                if (ex == null) return;
 				String c = AddExpenseToCategoryWizard.promptCategory();
+                if (c == null) return;
 				
 				budget.addExpenseToCategory(ex, c);
 				

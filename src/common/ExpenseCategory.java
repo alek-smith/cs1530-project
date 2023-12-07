@@ -1,5 +1,6 @@
 package common;
 
+import java.io.PrintWriter;
 import java.util.*;
 
 public class ExpenseCategory {
@@ -33,6 +34,24 @@ public class ExpenseCategory {
 			}
 		}
 		
+	}
+
+	public void load(Scanner input, ArrayList<Expense> list) {
+		String line = input.nextLine();
+		name = line;
+		int size = Integer.parseInt(input.nextLine());
+		for (int i = 0; i < size; i++) {
+			line = input.nextLine();
+			for (int j = 0; j < list.size(); j++) {
+				if (line.equals(list.get(j).getName())) expenses.add(list.get(j));
+			}
+		}
+	}
+
+	public void save(PrintWriter output) {
+		output.println(name);
+		output.println(expenses.size());
+		for (Expense e : expenses) output.println(e.getName());
 	}
 
 }
